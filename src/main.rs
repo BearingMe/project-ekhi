@@ -1,11 +1,17 @@
-use rocket::{get, launch, routes};
+use rocket::Error; // import structs
+use rocket::{get, main, routes}; // import macros explicitly
 
 #[get("/")]
-fn index() -> &'static str {
+async fn index() -> &'static str {
     "Hello, world!"
 }
 
-#[launch]
-fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+#[main]
+async fn main() -> Result<(), Error> {
+    let _rocket = rocket::build() //
+        .mount("/", routes![index])
+        .launch()
+        .await?;
+
+    Ok(())
 }
